@@ -43,9 +43,12 @@ export const App = () => {
 
   const stateKey = Object.keys(state);
 
-  const handleClick = evt => {
-    const name = evt.target.name;
-    dispatch({ type: name });
+  const handleClick = ({ target: { name: type } }) => {
+    dispatch({ type });
+
+    //   const handleClick = (evt) => {
+    // const name = evt.target.name;
+    // dispatch({ type: name });
 
     // switch (name) {
     //   case 'Good':
