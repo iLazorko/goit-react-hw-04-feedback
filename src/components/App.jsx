@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
+// import { useState } from 'react';
 import Statistics from './Statistics/Statistics';
 import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
 import Section from './Section/Section';
@@ -11,32 +12,58 @@ const initialState = {
   Bad: 0,
 };
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'Good':
+      return {
+        ...state,
+        Good: state.Good + 1,
+      };
+    case 'Neutral':
+      return {
+        ...state,
+        Neutral: state.Neutral + 1,
+      };
+    case 'Bad':
+      return {
+        ...state,
+        Bad: state.Bad + 1,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export const App = () => {
-  const [state, setState] = useState(initialState);
+  // const [state, setState] = useState(initialState);
+
+  const [state, dispatch] = useReducer(reducer, initialState);
   const { Good, Neutral, Bad } = state;
 
   const stateKey = Object.keys(state);
 
   const handleClick = evt => {
     const name = evt.target.name;
+    dispatch({ type: name });
 
-    switch (name) {
-      case 'Good':
-        setState(prevState => ({ ...prevState, Good: prevState.Good + 1 }));
-        break;
-      case 'Neutral':
-        setState(prevState => ({
-          ...prevState,
-          Neutral: prevState.Neutral + 1,
-        }));
-        break;
-      case 'Bad':
-        setState(prevState => ({ ...prevState, Bad: prevState.Bad + 1 }));
-        break;
+    // switch (name) {
+    //   case 'Good':
+    //     setState(prevState => ({ ...prevState, Good: prevState.Good + 1 }));
+    //     break;
+    //   case 'Neutral':
+    //     setState(prevState => ({
+    //       ...prevState,
+    //       Neutral: prevState.Neutral + 1,
+    //     }));
+    //     break;
+    //   case 'Bad':
+    //     setState(prevState => ({ ...prevState, Bad: prevState.Bad + 1 }));
+    //     break;
 
-      default:
-        break;
-    }
+    //   default:
+    //     break;
+    // }
   };
 
   const countTotalFeedback = () => {
